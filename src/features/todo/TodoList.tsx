@@ -1,52 +1,60 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { PayloadAction } from "@reduxjs/toolkit";
 
-import { TodoType, toggle, remove } from "./todoSlice";
+import { TodoType } from "./todoSlice";
 
-export default function TodoList() {
-    const todos = useSelector((state: any) => state.todo);
-    const dispatch = useDispatch();
+type Props = {
+    todos: TodoType[];
+    toggle: (id: number) => PayloadAction<number>;
+    remove: (id: number) => PayloadAction<number>;
+}
+
+export default function TodoList({ todos, toggle, remove }: Props) {
+    if (!todos || todos.length === 0) {
+        return <div>Such emptiness</div>;
+    }
 
     return (
-            <div>
-                {todos?.map((t: TodoType) =>
-                    <div
-                        key={t.id}
+        <div>
+            {todos?.map((t: TodoType) =>
+                <div
+                    key={t.id}
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center"
+                    }}
+                >
+                    <input
+                        id={`done${t.id}`}
+                        type="checkbox"
+                        checked={t.complete}
+                        onChange={() => toggle(t.id)}
+                    />
+                    <label
+                        htmlFor={`done${t.id}`}
                         style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center"
+                            textDecoration: t.complete ? "line-through" : "",
+                            cursor: "pointer",
+                            margin: 5,
                         }}
                     >
-                        <input
-                            id={`done${t.id}`}
-                            type="checkbox"
-                            onClick={() => dispatch(toggle(t.id))}
-                        />
-                        <label
-                            htmlFor={`done${t.id}`}
-                            style={{
-                                textDecoration: t.complete ? "line-through" : "",
-                                cursor: "pointer",
-                                margin: 5,
-                            }}
-                        >
-                            {t.value}
-                        </label>
-                        <button
-                            style={{
-                                border: "none",
-                                background: "#ff5252",
-                                color: "#fff",
-                                padding: "0.25rem",
-                                cursor: "pointer",
-                            }}
-                            onClick={() => dispatch(remove(t.id))}
-                        >
-                            delete
-                        </button>
-                    </div>
-                )}
-            </div>
+                        {t.value}
+                    </label>
+                    <button
+                        style={{
+                            border: "none",
+                            background: "#ff5252",
+                            color: "#fff",
+                            padding: "0.25rem",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => remove(t.id)}
+                    >
+                        delete
+                    </button>
+                </div>
+            )}
+        </div>
     )
 }

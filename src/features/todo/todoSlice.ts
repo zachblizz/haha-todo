@@ -52,6 +52,7 @@ const todoSlice = createSlice({
             if (t) {
                 t.complete = !t.complete;
             }
+            window.localStorage.setItem(TODO_LIST, JSON.stringify(state));
         },
         remove: (state, { payload }: PayloadAction<number>) => {
             const newState = state.filter(t => t.id !== payload);
