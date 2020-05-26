@@ -1,15 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type TodoType = {
-    id: number;
-    value: string;
-    complete: boolean;
-}
-
-const initialState: TodoType[] = [];
+import { TodoType } from "../../utils/types";
 
 let nextTodo = 0;
 const TODO_LIST = "todo-list";
+
+const initialState: TodoType[] = [];
 
 const todoSlice = createSlice({
     name: "todo",
@@ -39,6 +35,7 @@ const todoSlice = createSlice({
             reducer(state, {payload}: PayloadAction<{id: number, value: string}>) {
                 const { id, value } = payload;
 
+                // ability to mutate state directly, with the help of immerjs
                 state.push({value, id, complete: false});
                 window.localStorage.setItem(TODO_LIST, JSON.stringify(state));
             },

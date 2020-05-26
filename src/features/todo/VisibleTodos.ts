@@ -1,7 +1,9 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { connect } from "react-redux";
 
-import { TodoType, remove, toggle } from "./todoSlice";
+import { remove, toggle } from "./todoSlice";
+
+import { TodoType } from "../../utils/types";
 
 import TodoList from "./TodoList";
 import { RootState } from "../reducer";

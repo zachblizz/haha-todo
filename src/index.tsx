@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from "react-redux";
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+
+import ReduxLogger from "./utils/ReduxLogger";
 
 import rootReducer from "./features/reducer";
 
@@ -10,7 +12,10 @@ import App from './App';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
-const store = configureStore({ reducer: rootReducer });
+const store = configureStore({ 
+  reducer: rootReducer,
+  middleware: [...getDefaultMiddleware(), ReduxLogger],
+});
 
 ReactDOM.render(
   <React.StrictMode>

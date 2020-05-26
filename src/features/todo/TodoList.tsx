@@ -1,7 +1,7 @@
 import React from "react";
 import { PayloadAction } from "@reduxjs/toolkit";
 
-import { TodoType } from "./todoSlice";
+import { TodoType } from "../../utils/types";
 
 type Props = {
     todos: TodoType[];
