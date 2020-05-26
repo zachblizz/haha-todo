@@ -30,7 +30,7 @@ export default function OldTodoReducer(
             return todos;
         }
         case REMOVE_TODO: {
-            if (!payload) {
+            if (payload === undefined) {
                 return state;
             }
 
@@ -40,21 +40,21 @@ export default function OldTodoReducer(
             return todos ?? [];
         }
         case TOGGLE_TODO: {
-            if (!payload) {
+            if (payload === undefined) {
                 return state;
             }
 
             const id: number = +payload;
-            const todos = [ ...state ].filter((t) => t.id !== id);
-            const todo = [ ...state ].find((t) => t.id === id);
+            const todos = [...state].filter((t) => t.id !== id);
+            const tmpTodo = state.find((t) => t.id === id);
 
-            if (!todo) {
+            if (!tmpTodo) {
                 return state;
             }
 
-            todo.complete = !todo.complete;
+            const newTodo = { ...tmpTodo, complete: !tmpTodo.complete };
 
-            return [ ...todos, todo ];
+            return [ ...todos, newTodo ].sort((a, b) => a.id - b.id);
         }
         default:
             return state;
